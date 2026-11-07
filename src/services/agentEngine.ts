@@ -553,7 +553,7 @@ export class ExplanationAgent {
         ? anomalies.slice(0, 8).map(a => `- ${a.date}: ${a.anomaly_type.toUpperCase()} (Sales: ${a.sales}, Rolling Mean: ${a.rolling_mean}, z-score: ${a.z_score})`).join('\n')
         : 'None detected.';
 
-      const res = await fetch('/api/agent/explain', {
+      const res = await fetch('https://multi-agent-sales-backend.onrender.com/api/agent/explain', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

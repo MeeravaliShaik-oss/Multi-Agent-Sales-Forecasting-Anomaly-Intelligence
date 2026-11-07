@@ -100,7 +100,7 @@ export const ExecutiveReportPanel: React.FC<ExecutiveReportPanelProps> = ({
         result.forecastFuture.reduce((s, p) => s + p.yhat, 0) / Math.max(1, result.forecastFuture.length)
       );
 
-      const res = await fetch('/api/agent/chat', {
+      const res = await fetch('https://multi-agent-sales-backend.onrender.com/api/agent/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
