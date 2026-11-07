@@ -67,7 +67,7 @@ Write a short, clear, 4-5 paragraph executive summary explaining the forecast tr
       });
 
       const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), 5000)
+        setTimeout(() => reject(new Error('timeout')), 20000)
       );
 
       const response = await Promise.race([apiCall, timeoutPromise]);
@@ -139,7 +139,7 @@ Answer the manager's question practically in 2-3 sentences. Question: ${question
       });
 
       const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), 4000)
+        setTimeout(() => reject(new Error('timeout')), 20000)
       );
 
       const response = await Promise.race([apiCall, timeoutPromise]);
@@ -147,11 +147,19 @@ Answer the manager's question practically in 2-3 sentences. Question: ${question
         success: true,
         answer: response.text || generateGroundedResponse()
       });
-    } catch (error: any) {
-      const errStr = String(error?.message || '');
-      if (errStr.includes('429') || errStr.includes('quota') || errStr.includes('RESOURCE_EXHAUSTED')) {
+    }catch (error: any) {
+      console.error('Gemini Chat API Error:', error);
+
+      const errStr = String(error?.message || error?.status || '');
+
+      if (
+        errStr.includes('429') ||
+        errStr.includes('quota') ||
+        errStr.includes('RESOURCE_EXHAUSTED')
+      ) {
         isFreeTierQuotaExhausted = true;
       }
+
       return res.json({
         success: true,
         answer: generateGroundedResponse()
