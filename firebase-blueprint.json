@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document storing basic authenticated user info",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique user identifier matching Firebase Auth UID"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "User avatar profile image URL"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when user profile was created"
+        }
+      },
+      "required": ["id", "email", "createdAt"]
+    },
+    "SavedForecast": {
+      "title": "SavedForecast",
+      "description": "Persisted forecast run with metrics, anomalies, and executive briefing",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique forecast document ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID"
+        },
+        "datasetName": {
+          "type": "string",
+          "description": "Name of the sales dataset"
+        },
+        "forecastPeriods": {
+          "type": "number",
+          "description": "Number of days projected into future"
+        },
+        "mae": {
+          "type": "number",
+          "description": "Mean Absolute Error"
+        },
+        "rmse": {
+          "type": "number",
+          "description": "Root Mean Squared Error"
+        },
+        "mape": {
+          "type": "number",
+          "description": "Mean Absolute Percentage Error"
+        },
+        "anomaliesCount": {
+          "type": "number",
+          "description": "Total count of detected spikes and drops"
+        },
+        "executiveSummary": {
+          "type": "string",
+          "description": "Full text of Agent 4 executive briefing"
+        },
+        "isAi": {
+          "type": "boolean",
+          "description": "Whether briefing was generated via Gemini LLM"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when forecast was saved"
+        }
+      },
+      "required": ["id", "userId", "datasetName", "forecastPeriods", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Authenticated user profile documents"
+    },
+    "/saved_forecasts/{forecastId}": {
+      "schema": "SavedForecast",
+      "description": "Saved forecast history and executive memos per user"
+    }
+  }
+}
